@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH -a 1-50
+#SBATCH -a 1-10
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=2G
 #SBATCH --partition=sched_any_quicktest
