@@ -5,8 +5,8 @@
 #SBATCH --mem=2G
 #SBATCH --partition=xeon-p8
 #SBATCH --time=0-00:10
-#SBATCH -o /home/aschmid/mydir/outerr/run_\%a.out
-#SBATCH -e /home/aschmid/mydir/outerr/run_\%a.err
+#SBATCH -o /home/gridsan/aschmid/iap_hpc/highthroughoput_sc/run_\%a.out
+#SBATCH -e /home/gridsan/aschmid/iap_hpc/highthroughoput_sc/run_\%a.err
 
 #Load software
 module load julia/1.7.3
