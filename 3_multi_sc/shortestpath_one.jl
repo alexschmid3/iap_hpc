@@ -6,10 +6,6 @@ runid = 1
 networkfile = string("data/network", runid, ".csv")
 outputfile = string("outputs/network", runid, ".csv")
 
-if !(isdir("outputs"))
-    mkdir("outputs")
-end
-
 data = CSV.read(networkfile, DataFrame)
 
 nodes = []

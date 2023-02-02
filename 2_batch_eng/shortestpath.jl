@@ -1,4 +1,4 @@
-s
+
 using CSV, DataFrames
 
 data = CSV.read("network.csv", DataFrame)
@@ -83,7 +83,6 @@ function findshortestpath(orig, dest)
 end
 
 orig = 1
-for dest in 2:5
-	println("----- PATH FROM $orig TO $dest -----")
-	findshortestpath(orig, dest)
-end
+dest = numnodes 
+println("----- PATH FROM $orig TO $dest -----")
+findshortestpath(orig, dest)
