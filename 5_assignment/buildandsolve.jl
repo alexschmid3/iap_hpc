@@ -1,31 +1,27 @@
-using CSV, DataFrames
+
+using CSV, DataFrames, Random
 
 runid = 1
 
-data = CSV.read("data.csv", DataFrame)
-
 #Get network parameters
-experiments = CSV.read(paramsfilename, DataFrame)
+experiments = CSV.read("experiments.csv", DataFrame)
 randomseedval = experiments[runid, 2]		
 numnodes = experiments[runid, 3]
 Random.seed!(randomseedval)
 
 #Build network
-
-println("Network details:")
-println("Num nodes = ", length(nodelist))
-println("Num arcs = ", size(data)[1])
-
-outputfilename = string("iap_hpc/highthroughput/outputs/sp.csv")
+outputfilename = string("iap_hpc/5_assignment/outputs/sp", runid, ".csv")
 
 #-----------------------------------------------------------------------------#
 
 #Randomly select coordinates of nodes
 loccoords = zeros(numnodes, 2)
-for n in 1:numnodes
+loccoords[1,:] = [0 0]
+for n in 2:numnodes-1
 	loccoords[n,1] = round(rand(),digits=2)
 	loccoords[n,2] = round(rand(),digits=2)
 end
+loccoords[numnodes,:] = [1 1]
 
 #Create arcs between nodes within a certain distance
 arcstartnode, arcendnode, arccost = [], [], []
@@ -40,10 +36,9 @@ for n1 in 1:numnodes, n2 in setdiff(1:numnodes, n1)
 		push!(arcendnode, n2)
 		push!(arccost, dist * (1 + rand()/10) )
         arcindex = length(arccost)
-        push!(A_plus[n2], arcindex)
+        push!(A_plus[n1], arcindex)
 	end
 end
-arclist = 1:length(arccost)
 
 #-----------------------------------------------------------------------------#
 
@@ -55,8 +50,6 @@ function findshortestpath(orig, dest)
 	currdistance[orig] = 0
 	currnode = orig
 	prevnode, prevarc = zeros(numnodes), zeros(numnodes)
-	nopathexistsflag = 0
-	algorithmstopflag = 0
 
 	#Find shortest path from origin to destination
 	while true
