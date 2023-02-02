@@ -106,6 +106,6 @@ df = (runid = [runid],
 	solvetime = [elapsedtime]
 	)
 
-CSV.write(outputfile, df)
+CSV.write(outputfile, df, append=true)
 
 #---------------------------------------------------------------------------------------#
