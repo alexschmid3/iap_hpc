@@ -1,7 +1,7 @@
 
 using CSV, DataFrames
 
-runid = parse(Int, ARGS[1])
+runid = 1
 
 networkfile = string("data/network", runid, ".csv")
 outputfile = string("outputs/network", runid, ".csv")
