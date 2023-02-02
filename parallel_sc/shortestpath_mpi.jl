@@ -7,7 +7,7 @@ include("scripts/spfunction.jl")
 MPI.Init()
 comm = MPI.COMM_WORLD
 rank = MPI.Comm_rank(comm)
-nproc = MPI.Comm_size(MPI.comm)
+nproc = MPI.Comm_size(comm)
 
 runs = 1:50
 outputfile = "outputs/paralleloutput.csv"
