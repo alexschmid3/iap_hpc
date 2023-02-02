@@ -13,14 +13,14 @@ runs = 1:50
 outputfile = "outputs/paralleloutput.csv"
 
 #Select the runs for this particular rank (cycling, like dealing cards)
-myrunlist = runs[rank+1:nproc:length(runs)]
+myrun_list = runs[rank+1:nproc:length(runs)]
 
 #Initialize time 
 inittime = time()
 
 #Run the runids that were dealt to this rank!
 mynumnodes_list, myspcost_list, myelapsedtime_list = [], [], []
-for runid in myrunlist
+for runid in myrun_list
 
 	#Get the input file for the runid
 	networkfile = string("data/network", runid, ".csv")
@@ -70,19 +70,38 @@ end
 
 #---------------------------------------------------------------------------------------#
 
-#Merge the outputs of the ranks together
-runid_list = merge(+, myrunid_list)
-numnodes_list = merge(+, mynumnodes_list)
-spcost_list = merge(+, myspcost_list)
-elapsedtime_list = merge(+, myelapsedtime_list)
+#Ranks communicate to gather and reformat all data
+if rank > 0
+	
+	#Send your data to rank 0
+	println("$rank: Sending data $rank -> 0\n")
+	mydata = hcat(myrun_list, mynumnodes_list, myspcost_list, myelapsedtime_list)
+	MPI.send(mydata, 0, rank+nproc, comm)
+
+elseif rank == 0
+
+	#Get everyone's data
+	allruns = Dict()
+	allruns[1] = hcat(myrun_list, mynumnodes_list, myspcost_list, myelapsedtime_list)
+	for i in 1:nproc-1
+		allruns[i+1], statrcv = MPI.recv(i, i+nproc, comm) 
+	end
+
+	#Use merge to get overall data
+	alldata = allruns[1]
+	for i in 2:nproc
+		alldata = vcat(alldata,allruns[i])
+	end
+
+end
 
 #---------------------------------------------------------------------------------------#
 
 #Write a single file with all data
-df = (runid = [runid_list], 
-	numnodes = [numnodes_list],
-	cost = [spcost_list],
-	solvetime = [elapsedtime_list]
+df = (runid = alldata[:,1], 
+	numnodes = alldata[:,2],
+	cost = alldata[:,3],
+	solvetime = alldata[:,4]
 	)
 
 CSV.write(outputfile, df)
