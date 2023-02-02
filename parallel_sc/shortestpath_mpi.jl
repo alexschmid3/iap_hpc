@@ -30,7 +30,7 @@ for runid in myrun_list
 	#Read data
 	data = CSV.read(networkfile, DataFrame)
 
-	#Format data
+	#Format node data
 	nodes = []
 	for i in 1:size(data)[1]
 		push!(nodes, data[i,2])
@@ -39,15 +39,14 @@ for runid in myrun_list
 	nodes = unique!(nodes)
 	numnodes = length(nodes)
 
-	arcs, arcstartnode, arcendnode = [], [], []
-	arccost = []
+	#Format arc data 
+	arcs, arcendnode, arccost = [], [], []
 	A_plus = Dict()
 	for n in nodes
 		A_plus[n] = []
 	end
 	for i in 1:size(data)[1]
 		push!(arcs, data[i,1])
-		push!(arcstartnode, data[i,2])
 		push!(arcendnode, data[i,3])
 		push!(arccost, data[i,4])
 		push!(A_plus[data[i,2]], data[i,1])
@@ -59,7 +58,7 @@ for runid in myrun_list
 
 	#Solve shortest path
 	begintime = time()
-	spcost, spnodes= findshortestpath(orig, dest)
+	spcost, spnodes= findshortestpath(orig, dest, numnodes, A_plus, arcendnode, arccost)
 	endtime = time()
 	elapsedtime = endtime - begintime
 

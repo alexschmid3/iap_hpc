@@ -1,5 +1,5 @@
 
-function findshortestpath(orig, dest)
+function findshortestpath(orig, dest, numnodes, A_plus, arcendnode, arccost)
 
 	#Initialize shortest path algorithm (Dijkstra's)
 	visitednodes = zeros(numnodes)
