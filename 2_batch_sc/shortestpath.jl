@@ -1,6 +1,5 @@
 
-
-using CSV
+using CSV, DataFrames
 
 data = CSV.read("network.csv", DataFrame)
 
