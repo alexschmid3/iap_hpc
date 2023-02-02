@@ -4,7 +4,7 @@ using CSV, DataFrames, MPI
 include("scripts/spfunction.jl")
 
 #Initialize MPI 
-MPI.init()
+MPI.Init()
 comm = MPI.COMM_WORLD
 rank = MPI.Comm_rank(comm)
 nproc = MPI.Comm_size(MPI.comm)
@@ -17,6 +17,8 @@ myrun_list = runs[rank+1:nproc:length(runs)]
 
 #Initialize time 
 inittime = time()
+
+println("Hello, World! I am rank $rank of $nproc processors, running $myrun_list.\n")
 
 #Run the runids that were dealt to this rank!
 mynumnodes_list, myspcost_list, myelapsedtime_list = [], [], []
