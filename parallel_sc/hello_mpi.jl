@@ -2,7 +2,7 @@
 using MPI
 
 #Initialize environment
-MPI.init()
+MPI.Init()
 
 #Get MPI process rank
 rank = MPI.Comm_rank(MPI.COMM_WORLD)
