@@ -89,20 +89,15 @@ elseif rank == 0
 	end
 
 	#Use merge to get overall data
-	alldata = allruns[1]
-	for i in 2:nproc
-		alldata = vcat(alldata,allruns[i])
-	end
+	alldata = reduce(vcat, (allruns[i] for i in 1:nproc))
+
+	#Write a single file with all data
+	df = (runid = alldata[:,1], 
+		numnodes = alldata[:,2],
+		cost = alldata[:,3],
+		solvetime = alldata[:,4]
+		)
+
+	CSV.write(outputfile, df)
 
 end
-
-#---------------------------------------------------------------------------------------#
-
-#Write a single file with all data
-df = (runid = alldata[:,1], 
-	numnodes = alldata[:,2],
-	cost = alldata[:,3],
-	solvetime = alldata[:,4]
-	)
-
-CSV.write(outputfile, df)
