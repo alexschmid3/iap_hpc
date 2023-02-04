@@ -7,7 +7,7 @@ In the folder `5_assignment`, we have a script, `buildandsolve.jl`, that creates
 The parameters of five networks are given in the file `experiments.csv`. 
 
 1. Write a batch script that kicks off an array of 5 jobs, taking a parameter 1-5 and passing it to the script `buildandsolve.jl`. 
-2. Add your email address to the batch script as an additional `#SBATCH` tag and request an email when your job completes. Use the `--mail-to` and `--mail-type` commands to achieve this, with proper syntax in the documentation [here](https://slurm.schedmd.com/sbatch.html).
+2. Add your email address to the batch script as an additional `#SBATCH` tag and request an email when your job completes. Use the `--mail-user` and `--mail-type` commands to achieve this, with proper syntax in the documentation [here](https://slurm.schedmd.com/sbatch.html).
 3. Modify `buildandsolve.jl` to take in the parameter 1-5 from the batch script and read the appropriate line of data from `experiments.csv`. 
 4. Submit your batch script to the cluster, being sure to resolve any errors. 
  - If you’re having issues, add a output log and error log file to your batch script. You may need to add Julia packages if they aren't installed, following the same procedure from the pre-assignment. 
