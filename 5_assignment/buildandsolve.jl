@@ -10,7 +10,7 @@ numnodes = experiments[runid, 3]
 Random.seed!(randomseedval)
 
 #Build network
-outputfilename = string("iap_hpc/5_assignment/outputs/sp", runid, ".csv")
+outputfilename = string("outputs/sp", runid, ".csv")
 
 #-----------------------------------------------------------------------------#
 
