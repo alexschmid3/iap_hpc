@@ -100,5 +100,17 @@ end
 orig = 1
 dest = numnodes
 
-println("----- PATH FROM $orig TO $dest -----")
-findshortestpath(orig, dest)
+begintime = time()
+spcost, spnodes= findshortestpath(orig, dest)
+endtime = time()
+elapsedtime = endtime - begintime
+
+#---------------------------------------------------------------------------------------#
+
+df = (runid = [runid], 
+	numnodes = [numnodes],
+	cost = [spcost],
+	solvetime = [elapsedtime]
+	)
+
+CSV.write(outputfilename, df)
